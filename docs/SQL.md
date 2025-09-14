@@ -78,6 +78,37 @@ HAVING MAX(high) > 400
 ORDER BY year, month
 ```
 
+#### CASE-THEN-ELSE
+IF-ELSE condition
+```SQL
+SELECT
+	CASE 
+		WHEN [condition_1]
+		WHEN [condition_2]
+		ELSE 'Not found'
+	END AS [new column's name]
+FROM table_name;
+```
+
+```sql
+@set off_code = 1234
+@set status = 'active'
+@set created_id = 'NG001'
+-- Case / and condition
+
+SELECT
+OFF_CODE,
+	CASE
+		--condition 1:
+		WHEN OFF_CODE = ${off_code} AND OFF_CODE_STATUS = ${status} THEN 'Found by OFF code'
+		--condition 2:
+		WHEN USER_CODE = ${created_id} AND OFF_CODE_STATUS = ${status} THEN 'Found created_id'
+		ELSE 'Not found'
+	END AS condition_
+FROM Employee.OFF_CODES oc
+WHERE OFF_CODE = ${off_code};
+```
+
 ## FROM
 select data ***from which table***.
 Use ***JOIN*** to combine tables
@@ -217,7 +248,6 @@ LIMIT 5 (OFFSET 5);
 ## Multi-tables JOIN
 
 ![SQL Join types](../images/image001.SQLTypes.png)
-
 
 #### Type of JOINS
 - ***INNER JOIN / JOIN*** (default)

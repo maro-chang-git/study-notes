@@ -52,15 +52,17 @@
             }
           },
           {
-            "id": "49bccb9bff5c6fa8",
+            "id": "eab578773c6626e3",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "images/image001.SQLTypes.png"
+                "file": "docs/Database Testing.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "image001.SQLTypes"
+              "icon": "lucide-file",
+              "title": "Database Testing"
             }
           }
         ],
@@ -185,13 +187,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "images/Pasted.md",
+                "file": "docs/Database Testing.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Pasted"
+              "title": "Outline of Database Testing"
             }
           }
         ],
@@ -212,14 +214,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "1cf7a447b66673e5",
+  "active": "eab578773c6626e3",
   "lastOpenFiles": [
     "docs/SQL.md",
+    "docs/Database Testing.md",
+    "images/image002.DatabaseTesting.png",
+    "docs/DBeaver Tips.md",
+    "dictionary/Environments.md",
+    "images/Pasted.md",
     "README.md",
     "images/image001.SQLTypes.png",
-    "images/Pasted.md",
     "dictionary/Product-Based vs Outsourcing.md",
-    "dictionary/Environments.md",
     "index.md",
     "Untitled"
   ]
