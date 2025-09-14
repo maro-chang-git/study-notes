@@ -216,7 +216,7 @@ LIMIT 5 (OFFSET 5);
 
 ## Multi-tables JOIN
 
-![SQL Join types](images/image001.SQLTypes.png)
+![SQL Join types](../images/image001.SQLTypes.png)
 
 
 #### Type of JOINS
