@@ -216,7 +216,8 @@ LIMIT 5 (OFFSET 5);
 
 ## Multi-tables JOIN
 
-![[Pasted image 20250613215610.png]]
+![SQL Join types](images/image001.SQLTypes.png)
+
 
 #### Type of JOINS
 - ***INNER JOIN / JOIN*** (default)

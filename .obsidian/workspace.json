@@ -10,15 +10,17 @@
           {
             "id": "8ff60ff895f30b24",
             "type": "leaf",
+            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "dictionary/Product-Based vs Outsourcing.md",
+                "file": "docs/SQL.md",
                 "mode": "source",
                 "source": false
               },
+              "pinned": true,
               "icon": "lucide-file",
-              "title": "Product-Based vs Outsourcing"
+              "title": "SQL"
             }
           },
           {
@@ -48,9 +50,21 @@
               "icon": "lucide-file",
               "title": "README"
             }
+          },
+          {
+            "id": "49bccb9bff5c6fa8",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "images/image001.SQLTypes.png"
+              },
+              "icon": "lucide-image",
+              "title": "image001.SQLTypes"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -171,13 +185,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md",
+                "file": "images/Pasted.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of README"
+              "title": "Outline of Pasted"
             }
           }
         ],
@@ -198,14 +212,15 @@
       "bases:Create new base": false
     }
   },
-  "active": "ddfaf50551444d23",
+  "active": "1cf7a447b66673e5",
   "lastOpenFiles": [
     "docs/SQL.md",
-    "images/Pasted image 20250613215610.png",
+    "README.md",
+    "images/image001.SQLTypes.png",
+    "images/Pasted.md",
+    "dictionary/Product-Based vs Outsourcing.md",
     "dictionary/Environments.md",
     "index.md",
-    "dictionary/Product-Based vs Outsourcing.md",
-    "Untitled",
-    "README.md"
+    "Untitled"
   ]
 }
