@@ -62,7 +62,7 @@ GROUP BY year, month
 ```
 
 ##### HAVING 
-***Additional condition for the group***, after ***WHERE*** condition
+***Additional condition for the group***, after ***GROUP BY*** condition
 ```sql
 SELECT group_by_column, AGG_FUNC(_column_expression_) AS aggregate_result_alias, … 
 FROM mytable 

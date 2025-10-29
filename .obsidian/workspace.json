@@ -80,7 +80,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 442.5,
+    "collapsed": true
   },
   "right": {
     "id": "e68344568a5e4b4d",
@@ -173,20 +174,31 @@
   },
   "active": "8ff60ff895f30b24",
   "lastOpenFiles": [
+    "Others/ECF15120",
+    "Others/4E3ED710",
+    "Others/~$Testing tools comparison.xlsx",
+    "Others/Testing tools comparison.xlsx",
+    "docs/ISTQB/4. Models & equations.md",
+    "Others/~$Testing levels comparison.xlsx",
+    "docs/ISTQB/3. Plans.md",
+    "docs/ISTQB/2. Roles.md",
+    "docs/ISTQB/1. Terms.md",
+    "docs/DBeaver Tips.md",
+    "Others/F2848F80",
+    "docs/SQL.md",
+    "dictionary/Product-Based vs Outsourcing.md",
+    "dictionary/Environments.md",
+    "images/image003.DBeaver.png",
     "Others/Office.md",
     "reading/0.1 Reading list.md",
     "reading",
-    "docs/SQL.md",
     "Others/TestCaseTemplate.xls",
-    "dictionary/Environments.md",
     "Others",
     "README.md",
     "docs/Database Testing.md",
     "images/image002.DatabaseTesting.png",
-    "docs/DBeaver Tips.md",
     "images/Pasted.md",
     "images/image001.SQLTypes.png",
-    "dictionary/Product-Based vs Outsourcing.md",
     "index.md"
   ]
 }

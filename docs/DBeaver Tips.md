@@ -10,8 +10,10 @@ SELECT * FROM table_name tn WHERE tn.cid = ${cid} AND tn.status = ${status};
 File -> Name -> Select Tables want to see the ER relation diagram. 
 The Diagram will be save under project. 
 
-### Use value panel to see the foreign key's value
+### Advanced Copy
+![DBeaver](../images/image003.DBeaver.png)
 
+### Use value panel to see the foreign key's value
 
 ### AI Assistant 
 SQL Editor -> AI Assistant -> Add API Token
@@ -26,3 +28,4 @@ Build a query by UI, no written SQL needed
 - SQL script
 - Compare data
 Very limited type of tasks in community version
+
