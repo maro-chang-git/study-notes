@@ -120,7 +120,7 @@ STRING_AGG(col_name, seperator)
 STRING_AGG(DISTINCT col_name seperator)
 STRING_AGG(col_name, seperator ORDER BY sort_expr [ASC|DESC])
 
---OPTION 4: ARRAY_CONCAT (to use on Bigquer)
+--OPTION 4: ARRAY_CONCAT (to use on Bigquery)
   select 
     ARRAY_TO_STRING(
       ARRAY_CONCAT(
@@ -273,6 +273,11 @@ SELECT
 	CAST('2020-01-01' AS DATE)			-- string to date	
 	CAST('2020-01-01' AS DATETIME)		-- string to datetime			
 ```
+##### Get current_date
+```sql
+SELECT current_date;
+WHERE DATEDIFF(DAY, current_date, system_date) <= 30
+```
 ##### Get Date different
 ```sql
 -- BigQuery
@@ -283,9 +288,17 @@ SELECT *
 
 -- SQL 
 -- Syntax: DATEDIFF(datepart, startdate, enddate) 
-SELECT DATEDIFF(DAY, '2025-01-01', '2025-02-15') AS DaysDiff,
+SELECT DATEDIFF(DAY, current_date, '2025-02-15') AS DaysDiff,
        DATEDIFF(MONTH, '2025-01-01', '2025-02-15') AS MonthsDiff,
        DATEDIFF(YEAR, '2020-01-01', '2025-02-15') AS YearsDiff;
+```
+
+##### DATE_ADD
+Add extra date to the original date. Can be used in SELECT, WHERE
+```sql
+DATE_ADD(DATE '2025-11-27', INTERVAL 1 DAY)
+DATE_ADD(DATE system_date, INTERVAL 1 MONTH)
+DATE_ADD(DATE system_date, INTERVAL 1 YEAR)
 ```
 
 #### IS / IS NOT NULL
