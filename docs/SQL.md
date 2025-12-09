@@ -44,6 +44,9 @@ WHERE ABS(particle_position) * 10.0 > 500;
 ```sql
 SELECT COUNT/ MIN /MAX / AVG / SUM (col)
 FROM table_name;
+
+-- Get latest data
+WHERE system_date = MAX(system_date)
 ```
 
 ##### GROUP BY column
@@ -78,13 +81,85 @@ HAVING MAX(high) > 400
 ORDER BY year, month
 ```
 
+#### CAST - Convert data
+Use to convert Data type
+```sql
+SELECT 
+	CAST(value_to_cast AS value_to_replace),
+	CAST(25.65 AS varchar),				-- int to string
+	CAST('2020-01-01' AS DATE)			-- string to date	
+	CAST('2020-01-01' AS DATETIME)		-- string to datetime			
+```
+
+#### COALESCE - Handle NULL values
+Use to handle `Null` values
+```sql
+SELECT
+	COALESCE([col_name], [value_replace_to_null]) AS [col_name]   --col_name for new replaced value
+	COALESCE(customer_name, 'Unknown') AS customer_name,
+	COALESCE(description, '') AS description,
+	COALESCE(AVG, 0)
+FROM customer
+LIMIT 1000;
+```
+
+#### CONCAT - Join strings
+JOIN multiple values
+```sql
+--OPTION 1: CONCAT - can't handle NULL values
+SELECT CONCAT('text1', 'text2', 'text3') AS combined_string
+FROM my_table;
+
+--OPTION 2: CONCAT_WS with seperator
+--Can't use on BigQuery
+SELECT CONCAT_WS('!@', col1, col2, col3) AS combined_string
+FROM your_table;
+
+--OPTION 3: STRING_AGG (recommended)
+STRING_AGG(col_name, seperator)
+STRING_AGG(DISTINCT col_name seperator)
+STRING_AGG(col_name, seperator ORDER BY sort_expr [ASC|DESC])
+
+--OPTION 4: ARRAY_CONCAT (to use on Bigquery)
+  select 
+    ARRAY_TO_STRING(
+      ARRAY_CONCAT(
+        col1, 	--col1 value
+        IF(col2 IS NOT NULL AND is_sold_vamc = TRUE, ['col2'], []),    --If col1 .. then [value1], else [empty]
+        IF(col3 IS NOT NULL AND col3 >= 3, ['col3'], [])
+      ),
+      '!@'  	--seperator   
+    ) AS combined_string
+  from my_table
+```
+
+#### `STRING_AGG` - Advanced Join strings
+1. Simple join 1 column
+```sql
+-- Simple join
+SELECT STRING_AGG(email,';') email_list FROM sales.customers;
+-- a@gmail.com;b@gmail.com 
+
+-- Order the result
+SELECT STRING_AGG(email,';') email_list 
+	WITHIN GROUP (ORDER BY email) email_list
+FROM sales.customers;
+```
+
+2. Join multiple columns - STRING_AGG + CONCAT_WS
+```sql
+--Skip NULL value
+SELECT STRING_AGG(CONCAT_WS('!@', col1, col2, col3)) AS combined_string
+FROM our_table;
+```
+
 #### CASE-THEN-ELSE
 IF-ELSE condition
 ```SQL
 SELECT
 	CASE 
-		WHEN [condition_1]
-		WHEN [condition_2]
+		WHEN [condition_1] THEN [value_1]
+		WHEN [condition_2] THEN [value_2]
 		ELSE 'Not found'
 	END AS [new column's name]
 FROM table_name;
@@ -187,6 +262,45 @@ WHERE Name LIKE "%Technology%"
 	OR LOWER(Name) LIKE "%language%";
 ```
 
+#### DATETIME
+
+##### CAST - Convert data
+Use to convert Data type
+```sql
+SELECT 
+	CAST(value_to_cast AS value_to_replace),
+	CAST(25.65 AS varchar),				-- int to string
+	CAST('2020-01-01' AS DATE)			-- string to date	
+	CAST('2020-01-01' AS DATETIME)		-- string to datetime			
+```
+##### Get current_date
+```sql
+SELECT current_date;
+WHERE DATEDIFF(DAY, current_date, system_date) <= 30
+```
+##### Get Date different
+```sql
+-- BigQuery
+-- Find data in the last 1 year (365 days)
+SELECT * 
+	FROM table_name
+	WHERE date_diff(current_date, systm_dt, DAY) <= 356 
+
+-- SQL 
+-- Syntax: DATEDIFF(datepart, startdate, enddate) 
+SELECT DATEDIFF(DAY, current_date, '2025-02-15') AS DaysDiff,
+       DATEDIFF(MONTH, '2025-01-01', '2025-02-15') AS MonthsDiff,
+       DATEDIFF(YEAR, '2020-01-01', '2025-02-15') AS YearsDiff;
+```
+
+##### DATE_ADD
+Add extra date to the original date. Can be used in SELECT, WHERE
+```sql
+DATE_ADD(DATE '2025-11-27', INTERVAL 1 DAY)
+DATE_ADD(DATE system_date, INTERVAL 1 MONTH)
+DATE_ADD(DATE system_date, INTERVAL 1 YEAR)
+```
+
 #### IS / IS NOT NULL
 ```sql
 SELECT column, another_column, … 
@@ -212,6 +326,15 @@ remove duplicate rows
 SELECT DISTINCT column, another_column, … 
 FROM mytable 
 WHERE condition(s);
+```
+
+#### EXCEPT DISTINCT
+To select only distinct from 1st table/ remove duplicate
+```sql
+-- Returns rows from the 1st query that do not appear in the 2nd query, removing duplicates.
+    select * from trg_data
+    except distinct
+    select * from src_data
 ```
 
 #### ASC/DESC
@@ -251,15 +374,14 @@ LIMIT 5 (OFFSET 5);
 
 #### Type of JOINS
 - ***INNER JOIN / JOIN*** (default)
-- FULL JOIN
-- OUTER JOIN
+- FULL (OUTER) JOIN
 - LEFT JOIN
 - RIGHT JOIN
 
 ```sql
 SELECT column, another_table_column, … 
 FROM mytable 
-INNER / LEFT / RIGHT / FULL JOIN another_table 
+INNER / LEFT / RIGHT / FULL OUTER JOIN another_table 
 	ON mytable.id = another_table.id;
 ```
 
@@ -273,7 +395,6 @@ WHERE international_sales > domestic_sales
 ORDER BY boxoffice.rating DESC;
 ```
 
-
 ```sql
 -- Join 3 tables, find the similarities between high earners. Primary key is the ssn (social security number).
 SELECT name, annual_income as income, 
@@ -286,3 +407,80 @@ JOIN drivers_license dl
 WHERE annual_income > 450000
 ```
 
+## CTE - Common Table Expression
+Use to Extract - Transform - Load data
+
+### Compare CTE - Sub Query - Temp Table - View
+**1. CTE**
+	A temporary result. Easy to use, single query. 
+	Only exists for the duration of the query -> Clean up memory. 
+
+```sql
+WITH SalesCTE AS (
+	SELECT CustomerID, SUM(Total) AS TotalSales
+	FROM Orders
+	GROUP BY CustomerID
+	)
+SELECT * FROM SalesCTE WHERE TotalSales > 1000;
+```
+**2. Sub Query**
+	A query nested inside another query (SELECT, FROM, WHERE, HAVING, etc.).
+	Readability can suffer in complex cases.
+```sql
+SELECT CustomerID, CustomerName
+FROM Customers
+WHERE CustomerID IN (
+    SELECT CustomerID FROM Orders WHERE Total > 1000
+);
+```
+
+**3. Temp Table**
+A table stored in tempdb (in SQL Server) or equivalent in other RDBMS, created with **#TempTable** or **CREATE TEMPORARY TABLE**.
+Exists for the session or transaction.
+
+```sql
+CREATE TABLE #SalesTemp (
+	CustomerID INT,
+	TotalSales DECIMAL(10,2)
+);
+
+INSERT INTO #SalesTemp
+SELECT CustomerID, SUM(Total)
+FROM Orders
+GROUP BY CustomerID;
+
+SELECT * FROM #SalesTemp WHERE TotalSales > 1000;
+```
+
+**4. View**
+A stored query that acts like a virtual table.
+Exist permanently until dropped.
+
+```sql
+CREATE VIEW HighValueCustomers AS
+	SELECT CustomerID, SUM(Amount) AS TotalSales
+	FROM Sales
+	GROUP BY CustomerID
+	HAVING SUM(Amount) > 1000;
+```
+
+### Join 2 CTEs
+```sql
+-- CTE1
+WITH cte1 AS (
+    SELECT id, col1
+    FROM table1
+),
+--CTE2
+cte2 AS (
+    SELECT id, col2
+    FROM table2
+)
+SELECT 
+    cte1.id,
+    cte1.col1,
+    cte2.col2
+FROM cte1
+--JOIN
+JOIN cte2 ON cte1.id = cte2.id;
+```
