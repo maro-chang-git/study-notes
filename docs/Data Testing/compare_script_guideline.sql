@@ -12,7 +12,8 @@ src1_raw AS (
     SELECT *
     FROM source_db.table1 s1
     QUALIFY ROW_NUMBER() OVER (PARTITION BY s1.business_key ORDER BY s1.updated_at DESC) = 1
-    -- For BigQuery: use QUALIFY; for PostgreSQL: use subquery with ROW_NUMBER filter
+    -- For BigQuery: use QUALIFY; 
+    -- For PostgreSQL: use subquery with ROW_NUMBER filter
 ),
 src2_raw AS (
     SELECT *
