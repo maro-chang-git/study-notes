@@ -1,19 +1,23 @@
-
 -- ============================================
 -- This script is the guideline to COMPARES source tables with target tables post-ETL
 -- It includes steps for filtering, flattening, normalizing, and field-level comparison
 -- Author: Charis Dang (Dang Quynh Trang)
--- Date: 2025-12-10
+-- Date: 2026-01-15
 -- Get latest records from SOURCE TABLES based on conditions (date window, status)
 -- ============================================
 WITH
 -- 1) Get latest records from source tables
 src1_raw AS (
-    SELECT *
-    FROM source_db.table1 s1
-    QUALIFY ROW_NUMBER() OVER (PARTITION BY s1.business_key ORDER BY s1.updated_at DESC) = 1
-    -- For BigQuery: use QUALIFY; 
-    -- For PostgreSQL: use subquery with ROW_NUMBER filter
+    --source table1 example
+    SELECT * from (
+        SELECT 
+          recid,
+          sector,
+          op_type
+        FROM `ncb-dp-uat-ency.ncb_dp_dev_landing.CUSTOMER`
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY RECID ORDER BY op_ts DESC,current_ts DESC) = 1 -- get latest record per business key
+    )
+    WHERE SECTOR LIKE '2%' and op_type!='D'   -- filter out deleted records
 ),
 src2_raw AS (
     SELECT *
@@ -84,20 +88,49 @@ trg_data AS (
     FROM analytics.orders_fact
     WHERE order_date BETWEEN DATE '2025-10-01' AND DATE '2025-10-31'
       AND status IN ('ACTIVE','COMPLETED')
-),
+)
 -- ============================================
 -- Compare SOURCE & TARGET
 -- ============================================
--- 6) TARGET_ONLY: 
+-- 6) Count total records and differing records between SOURCE and TARGET
+SELECT
+    (SELECT COUNT(*) FROM src_data) AS total_src_records,
+    (SELECT COUNT(*) FROM trg_data) AS total_trg_records,
+    (
+        SELECT COUNT(*)
+        FROM (
+            (SELECT * FROM src_data EXCEPT DISTINCT SELECT * FROM trg_data)
+            UNION ALL
+            (SELECT * FROM trg_data EXCEPT DISTINCT SELECT * FROM src_data)
+        ) diff
+    ) AS nums_diff_records;
+-- ============================================
+-- Debugging: Detailed comparison results
+-- ============================================
+-- 7)Field-level comparison between SOURCE and TARGET
+-- ,
+-- comparison_result AS (
+--   -- Records only in source
+--   (
+--     SELECT 'SRC_ONLY' as diff_type, account_number as key_field, * FROM src_data
+--     EXCEPT DISTINCT
+--     SELECT 'SRC_ONLY' as diff_type, account_number as key_field, * FROM trg_data
+--   )
+--   UNION ALL
+--   -- Records only in target
+--   (
+--     SELECT 'TRG_ONLY' as diff_type, account_number as key_field, * FROM trg_data
+--     EXCEPT DISTINCT
+--     SELECT 'TRG_ONLY' as diff_type, account_number as key_field, * FROM src_data
+--   )
+-- )
+-- SELECT * FROM comparison_result ORDER BY key_field LIMIT 1000;
+-- 8) TARGET_ONLY: Đoạn code này dùng dể tìm ra các bản ghi nguồn lệch so với đích
 -- Returns rows from the 1st query that do not appear in the 2nd query, removing duplicates.
-    select * from trg_data
-    except distinct
-    select * from src_data
--- 7) SOURCE_ONLY: 
+    -- select * from trg_data
+    -- except distinct
+    -- select * from src_data
+-- 9) SOURCE_ONLY: Đoạn code này dùng dể tìm ra các bản ghi đích lệch so với nguồn
     -- select * from src_data
     -- except distinct
     -- select * from trg_data
--- 8) Field-level comparison for specific business_key to identify differing columns
-   select 'TARGET' as TB, * from trg_data where cif = '10089003' and token_id = '90068'
-   union all
-   select 'SOURCE' as TB, * from src_data where cif = '10089003' and token_id = '90068'
