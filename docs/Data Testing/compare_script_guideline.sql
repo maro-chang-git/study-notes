@@ -1,9 +1,14 @@
 -- ============================================
--- This script is the guideline to COMPARES source tables with target tables post-ETL
--- It includes steps for filtering, flattening, normalizing, and field-level comparison
--- Author: Charis Dang (Dang Quynh Trang)
--- Date: 2026-01-15
--- Get latest records from SOURCE TABLES based on conditions (date window, status)
+-- TEST CASE        : T24 Promotion - Landing src_data generation
+-- STREAM           : Batch T-1
+-- PLATFORM         : BigQuery
+-- LAYER TRANSITION : Landing → MART (ETL expectation)
+-- SOURCE TABLE     : SRC
+-- TARGET TABLE     : TRG
+-- BUSINESS KEY     : recid (Landing, rename to promotion_cd_id in src_data)
+-- RULE REF         : description._VALUE concatenated with '!@' ordered by _m, _s
+-- COB DATE WINDOW  : [Not applied]
+-- AUTHOR           : trangdq.os
 -- ============================================
 WITH
 -- 1) Get latest records from source tables
@@ -14,7 +19,7 @@ src1_raw AS (
           recid,
           sector,
           op_type
-        FROM `ncb-dp-uat-ency.ncb_dp_dev_landing.CUSTOMER`
+        FROM `dev_landing.CUSTOMER`
         QUALIFY ROW_NUMBER() OVER (PARTITION BY RECID ORDER BY op_ts DESC,current_ts DESC) = 1 -- get latest record per business key
     )
     WHERE SECTOR LIKE '2%' and op_type!='D'   -- filter out deleted records
@@ -78,12 +83,12 @@ trg_data AS (
     SELECT
         business_key,
         order_id,
-        DATE(order_date) AS order_date,
-        UPPER(TRIM(country)) AS country_norm,
-        UPPER(TRIM(currency_code)) AS currency_norm,
-        ROUND(COALESCE(amount, 0.0), 2) AS amount_norm,
-        ROUND(COALESCE(tax_amount, 0.0), 2) AS tax_norm,
-        ROUND(COALESCE(discount_amount, 0.0), 2) AS discount_norm,
+        order_date,
+        country_norm,
+        currency_norm,
+        amount_norm,
+        tax_norm,
+        discount_norm,
         status
     FROM analytics.orders_fact
     WHERE order_date BETWEEN DATE '2025-10-01' AND DATE '2025-10-31'
