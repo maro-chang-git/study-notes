@@ -1,0 +1,494 @@
+/* ============================================================
+   The Dark Sides of AI — deck styles
+   Light, modern, edgy: cut corners, mono labels, ghost numbers.
+   No external fonts or assets — must work offline.
+   ============================================================ */
+
+:root {
+  --bg: #f4f6fb;
+  --panel: #ffffff;
+  --panel-2: #f8f9fd;
+  --ink: #0f1424;
+  --muted: #5b647d;
+  --accent: #e11d40;
+  --accent-2: #ff6a3d;
+  --violet: #6a4df0;
+  --good: #0c9f77;
+  --line: #dfe3ef;
+  --mono: "Cascadia Code", Consolas, "JetBrains Mono", "Courier New", monospace;
+  --sans: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --cut: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+
+/* scale all rem-based type with the viewport so slides fit any screen */
+html { font-size: clamp(5px, min(1.25vw, 1.8vh), 16px); }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  user-select: none;
+}
+
+/* fixed backdrop: grid + glows, shared by every slide */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    linear-gradient(rgba(15, 23, 42, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, .05) 1px, transparent 1px),
+    radial-gradient(1100px 600px at 85% -10%, rgba(225, 29, 64, .07), transparent 60%),
+    radial-gradient(900px 550px at -10% 110%, rgba(106, 77, 240, .07), transparent 60%);
+  background-size: 64px 64px, 64px 64px, auto, auto;
+}
+
+/* ---------------- slides ---------------- */
+
+.slide {
+  position: absolute; inset: 0; z-index: 1;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7vh 9vw;
+}
+.slide.active { display: flex; animation: slide-in .4s cubic-bezier(.2,.7,.2,1); }
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* huge outlined number behind risk slides */
+.ghost {
+  position: absolute; right: 5vw; top: 2vh; z-index: -1;
+  font-family: var(--mono); font-weight: 800; font-size: 14rem; line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(225, 29, 64, .12);
+}
+
+.kicker {
+  font-family: var(--mono);
+  color: var(--accent);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+.kicker::before { content: "// "; color: var(--muted); }
+
+h1 {
+  font-size: 4.8rem; line-height: 1.05; font-weight: 800; letter-spacing: -.02em;
+  background: linear-gradient(180deg, #0f1424 35%, #4c5674);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hot, .big-quote em {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-style: normal;
+}
+h2 {
+  font-size: 3.2rem; line-height: 1.1; font-weight: 800; letter-spacing: -.015em;
+  margin-bottom: 2.2rem;
+}
+.sub { font-size: 1.5rem; color: var(--muted); margin-top: 1.5rem; max-width: 62rem; line-height: 1.55; }
+.byline {
+  font-family: var(--mono); font-size: 1.05rem; letter-spacing: .06em;
+  color: var(--muted); margin-top: 3rem;
+}
+
+/* ---------------- content blocks ---------------- */
+
+ul.points { list-style: none; font-size: 1.5rem; line-height: 1.5; max-width: 64rem; }
+ul.points li { margin: 1.1rem 0; padding-left: 2.3rem; position: relative; }
+ul.points li::before {
+  content: ""; position: absolute; left: 0; top: .52em;
+  width: 1rem; height: 1rem;
+  background: var(--accent);
+  transform: rotate(45deg) scale(.72);
+}
+ul.points.good li::before { background: var(--good); }
+ul.points b { color: var(--ink); }
+
+.story {
+  position: relative;
+  border-left: 3px solid var(--accent);
+  border-top: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  clip-path: var(--cut);
+  padding: 1.4rem 2rem;
+  font-size: 1.42rem;
+  line-height: 1.52;
+  max-width: 64rem;
+  margin: .5rem 0 1.3rem;
+}
+.story .src {
+  display: block; margin-top: .6rem;
+  font-family: var(--mono); font-size: .95rem; letter-spacing: .06em;
+  color: var(--muted);
+}
+.story .src::before { content: "[ "; color: var(--accent); }
+.story .src::after  { content: " ]"; color: var(--accent); }
+
+.takeaway {
+  margin-top: 2.2rem;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--ink);
+  border-top: 1px solid var(--line);
+  padding-top: 1.3rem;
+  max-width: 64rem;
+}
+.takeaway::before {
+  content: "→ ";
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.big-quote { font-size: 3.5rem; font-weight: 800; line-height: 1.2; max-width: 60rem; letter-spacing: -.015em; }
+
+/* ---------------- agenda grid ---------------- */
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 70rem; }
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  clip-path: var(--cut);
+  padding: 1.05rem 1.5rem;
+  display: flex; align-items: center; gap: 1.2rem;
+  font-size: 1.38rem; font-weight: 600;
+  transition: transform .18s ease, border-color .18s ease;
+}
+.card:hover { transform: translateY(-3px); border-color: var(--accent); }
+.card .num {
+  font-family: var(--mono); font-weight: 800; font-size: 1.7rem;
+  min-width: 2.6rem; text-align: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.card svg { flex: none; }
+
+/* ---------------- survey / warm-up ---------------- */
+
+.divider-word {
+  font-family: var(--mono);
+  font-size: 7.5rem; font-weight: 800; line-height: 1; letter-spacing: -.02em;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(15, 20, 36, .8);
+}
+.divider-word .fill {
+  -webkit-text-stroke: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.qtag {
+  font-family: var(--mono); font-size: 1.1rem; letter-spacing: .3em;
+  color: var(--muted); margin-bottom: 1.2rem;
+}
+.qtag b { color: var(--accent); }
+
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; max-width: 66rem; margin-top: 1rem; }
+.opt {
+  display: flex; align-items: center; gap: 1.2rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  clip-path: var(--cut);
+  padding: 1.25rem 1.5rem;
+  font-size: 1.4rem; font-weight: 600;
+  transition: transform .18s ease, border-color .18s ease;
+}
+.opt:hover { transform: translateY(-3px); border-color: var(--accent); }
+.opt .key {
+  font-family: var(--mono); font-weight: 800; font-size: 1.15rem;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: .25rem .7rem;
+  flex: none;
+}
+.opt small { display: block; font-weight: 400; color: var(--muted); font-size: 1.05rem; margin-top: .15rem; }
+
+/* terminal strip — kept dark on purpose, an edgy accent on the light theme */
+.prompt-line {
+  display: inline-block; align-self: flex-start;
+  margin-top: 2.4rem;
+  font-family: var(--mono); font-size: 1.2rem; letter-spacing: .08em;
+  background: #10162b; color: #9ce8c3;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  padding: .7rem 1.4rem;
+}
+.prompt-line::before { content: "> "; color: var(--good); }
+.prompt-line .cursor {
+  display: inline-block; width: .65em; height: 1.1em;
+  background: #9ce8c3; vertical-align: text-bottom; margin-left: .2em;
+  animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* word cloud (Q2) — hidden until the reveal button is clicked */
+.cloud {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 1.4rem 2.6rem;
+  max-width: 70rem; min-height: 20rem;
+  margin-top: 1rem;
+}
+.word {
+  font-family: var(--mono); font-weight: 800; line-height: 1;
+  font-size: var(--s, 2rem);
+  color: var(--c, var(--ink));
+  opacity: 0;
+  transform: translateY(14px) scale(.5) rotate(var(--r, 0deg));
+}
+.cloud.revealed .word {
+  animation: pop .5s cubic-bezier(.2, .7, .3, 1.35) forwards;
+  animation-delay: calc(var(--i, 0) * .13s);
+}
+@keyframes pop {
+  to { opacity: 1; transform: translateY(0) scale(1) rotate(var(--r, 0deg)); }
+}
+
+.reveal-btn {
+  align-self: flex-start;
+  margin-top: 2rem;
+  font-family: var(--mono); font-size: 1.25rem; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: transparent;
+  border: 2px solid var(--accent);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+  padding: 1rem 2.2rem;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+.reveal-btn:hover {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  transform: translateY(-2px);
+}
+.reveal-btn.hidden { display: none; }
+
+/* level meter (Q4) */
+.levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; max-width: 74rem; margin-top: 1rem; }
+.level {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  clip-path: var(--cut);
+  padding: 1.4rem 1.4rem 1.5rem;
+  transition: transform .18s ease, border-color .18s ease;
+}
+.level:hover { transform: translateY(-3px); border-color: var(--accent); }
+.level .name { font-size: 1.45rem; font-weight: 800; margin-bottom: .3rem; }
+.level .desc { color: var(--muted); font-size: 1.1rem; line-height: 1.45; margin-bottom: 1.2rem; }
+.level .meter { display: flex; gap: .45rem; }
+.level .meter span { height: .7rem; flex: 1; background: #e6e9f3; }
+.level .meter span.on { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+/* ---------------- visual-first risk slides ---------------- */
+
+/* two-column layout: short text left, SVG illustration right */
+.duo {
+  display: grid; grid-template-columns: 1.05fr .95fr; gap: 4rem;
+  align-items: center; max-width: 84rem;
+}
+.art { display: flex; align-items: center; justify-content: center; }
+.art svg, .art img { width: 100%; max-width: 34rem; height: auto; max-height: 58vh; }
+.art img {
+  object-fit: cover;
+  border: 1px solid var(--line);
+  clip-path: var(--cut);
+  box-shadow: 0 18px 40px -18px rgba(15, 20, 36, .28);
+}
+
+.lead { font-size: 1.7rem; line-height: 1.5; max-width: 42rem; margin-bottom: 1.5rem; }
+.lead b { color: var(--ink); }
+.srcline { font-family: var(--mono); font-size: .95rem; color: var(--muted); letter-spacing: .05em; }
+.srcline::before { content: "[ "; color: var(--accent); }
+.srcline::after  { content: " ]"; color: var(--accent); }
+
+/* big icon cards for guardrail slides */
+.vcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; max-width: 74rem; margin-top: .6rem; }
+.vcard {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  clip-path: var(--cut);
+  padding: 2rem 1.8rem;
+  transition: transform .18s ease, border-color .18s ease;
+}
+.vcard:hover { transform: translateY(-3px); border-color: var(--good); }
+.vcard .vicon { width: 4.6rem; height: 4.6rem; margin-bottom: 1.3rem; }
+.vcard .vicon * { fill: none; stroke: var(--good); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.vcard.warn .vicon * { stroke: var(--accent); }
+.vcard.warn:hover { border-color: var(--accent); }
+.vcards.two { grid-template-columns: 1fr 1fr; max-width: 62rem; }
+.vcard .vtitle { font-size: 1.8rem; font-weight: 800; margin-bottom: .45rem; }
+.vcard .vdesc { font-size: 1.3rem; color: var(--muted); line-height: 1.45; }
+
+/* horizontal roadmap / timeline (knowledge cut-off slide) */
+.roadmap { max-width: 84rem; margin-top: 2.4rem; }
+.rm-track { position: relative; display: flex; justify-content: space-between; gap: .6rem; }
+.rm-track::before {
+  content: "";
+  position: absolute; top: .55rem; left: 0; right: 0; height: 3px; z-index: 0;
+  background: linear-gradient(90deg, var(--line) 0%, var(--accent) 55%, var(--accent-2) 100%);
+}
+.rm-stop {
+  flex: 1; min-width: 0; position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.rm-dot {
+  width: 1.1rem; height: 1.1rem; border-radius: 50%; margin-bottom: 1rem;
+  background: var(--panel); border: 3px solid var(--accent);
+}
+.rm-stop.now .rm-dot { background: var(--accent); box-shadow: 0 0 0 6px rgba(225, 29, 64, .15); }
+.rm-year { font-family: var(--mono); font-size: .92rem; color: var(--muted); letter-spacing: .04em; }
+.rm-name { font-size: 1.22rem; font-weight: 800; margin: .3rem 0 .25rem; line-height: 1.2; }
+.rm-cut { font-size: .98rem; color: var(--muted); line-height: 1.3; }
+.rm-stop.now .rm-name, .rm-stop.now .rm-cut { color: var(--accent); font-weight: 700; }
+
+/* small fact pills */
+.mini-chips { display: flex; flex-wrap: wrap; gap: 1rem; margin: .4rem 0 1.2rem; max-width: 44rem; }
+.mini-chip {
+  font-size: 1.3rem; font-weight: 600;
+  background: var(--panel); border: 1px solid var(--line);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  padding: .75rem 1.4rem;
+}
+.mini-chip b { color: var(--accent); }
+
+/* closing statement */
+.mega {
+  font-size: 4.8rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.12;
+  margin-top: 1.6rem;
+}
+
+/* ---------------- icons ---------------- */
+
+.icon { width: 3.2rem; height: 3.2rem; }
+.icon-lg { width: 5.5rem; height: 5.5rem; margin-bottom: 1.8rem; }
+.icon path, .icon circle, .icon rect, .icon line, .icon polyline,
+.icon-lg path, .icon-lg circle, .icon-lg rect, .icon-lg line, .icon-lg polyline {
+  fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ---------------- chrome ---------------- */
+
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; z-index: 10;
+  width: 0; transition: width .25s ease;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 10px rgba(225, 29, 64, .45);
+}
+#counter {
+  position: fixed; bottom: 1.4rem; right: 1.8rem; z-index: 10;
+  font-family: var(--mono); color: var(--muted); font-size: 1rem; letter-spacing: .12em;
+}
+#counter b { color: var(--accent); font-weight: 700; }
+#hint {
+  position: fixed; bottom: 1.4rem; left: 1.8rem; z-index: 10;
+  font-family: var(--mono); color: var(--muted); font-size: .9rem; opacity: .75; letter-spacing: .06em;
+}
+.navzone { position: fixed; top: 0; bottom: 0; width: 16vw; z-index: 5; cursor: pointer; }
+#prevzone { left: 0; } #nextzone { right: 0; }
+
+/* frame corners */
+.corner { position: fixed; width: 26px; height: 26px; z-index: 9; pointer-events: none; }
+.corner::before, .corner::after { content: ""; position: absolute; background: rgba(15, 20, 36, .35); }
+.corner::before { width: 100%; height: 2px; }
+.corner::after  { width: 2px; height: 100%; }
+#c-tl { top: 14px; left: 14px; }
+#c-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+#c-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+#c-br { bottom: 14px; right: 14px; transform: scale(-1); }
+
+/* "screen and" keeps these responsive breakpoints from misfiring during
+   print/PDF export, where Chrome's print engine can fall back to a narrow
+   default layout viewport unrelated to the actual @page size */
+@media screen and (max-width: 900px) {
+  .grid, .opts { grid-template-columns: 1fr; }
+  .levels { grid-template-columns: 1fr 1fr; }
+  .slide { padding: 5vh 6vw; }
+  .ghost { display: none; }
+}
+/* stack the two-column layouts only on portrait screens (phones) —
+   on short landscape windows they fit better side by side */
+@media screen and (max-width: 900px) and (orientation: portrait) {
+  .duo, .vcards { grid-template-columns: 1fr; }
+}
+
+/* ---------------- PDF export ----------------
+   Normally only the .active slide is shown (JS-driven, one at a time).
+   For print/PDF every slide becomes its own page instead. */
+@page { size: 13.333in 7.5in; margin: 0; }
+
+@media print {
+  html, body { height: auto !important; overflow: visible !important; }
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+
+  /* position:fixed repeats body::before's grid/glow backdrop on every
+     printed page in Chromium — keep it, but noticeably fainter than the
+     on-screen version, which reads much lighter on a lit display than
+     the same opacity does printed/rasterized on a page */
+  body::before {
+    background:
+      linear-gradient(rgba(15, 23, 42, .025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 23, 42, .025) 1px, transparent 1px),
+      radial-gradient(1100px 600px at 85% -10%, rgba(225, 29, 64, .04), transparent 60%),
+      radial-gradient(900px 550px at -10% 110%, rgba(106, 77, 240, .04), transparent 60%) !important;
+    background-size: 64px 64px, 64px 64px, auto, auto !important;
+  }
+
+  #progress, #counter, #hint, .corner, .navzone, .reveal-btn { display: none !important; }
+
+  .slide {
+    display: flex !important;
+    position: relative !important;
+    inset: auto !important;
+    width: 13.333in;
+    height: 7.5in;
+    overflow: hidden !important;
+    padding: .55in 1.2in !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  /* break-before on every slide but the first is more reliable across
+     Chromium's print paginator than break-after on all-but-last */
+  .slide + .slide { page-break-before: always !important; break-before: page !important; }
+
+  /* per-page counter (JS-driven #counter only reflects whichever slide
+     was active on load, so it's hidden above — this replaces it with a
+     real page number per printed page). Update "19" if slides are added. */
+  body { counter-reset: pdfpage; }
+  .slide { counter-increment: pdfpage; }
+  .slide::after {
+    content: counter(pdfpage) " / 19";
+    position: absolute;
+    bottom: .35in; right: .5in;
+    font-family: var(--mono);
+    font-size: 11pt;
+    letter-spacing: .1em;
+    color: var(--muted);
+  }
+
+  .ghost { position: absolute !important; }
+
+  /* reveal the word cloud in the exported PDF regardless of click state */
+  .word { opacity: 1 !important; transform: none !important; animation: none !important; }
+
+  /* Chrome's print rasterizer doesn't reliably clip gradients to text —
+     it paints an opaque box instead. Fall back to solid colors for PDF. */
+  h1, h2 {
+    background: none !important; -webkit-background-clip: unset !important;
+    background-clip: unset !important; color: var(--ink) !important;
+  }
+  .hot, .big-quote em, .card .num, .divider-word .fill, .takeaway::before {
+    background: none !important; -webkit-background-clip: unset !important;
+    background-clip: unset !important; color: var(--accent) !important;
+  }
+}

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dark Sides of AI</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="counter"></div>
+<div id="hint">&larr; &rarr; navigate &middot; F fullscreen</div>
+<div class="corner" id="c-tl"></div><div class="corner" id="c-tr"></div>
+<div class="corner" id="c-bl"></div><div class="corner" id="c-br"></div>
+<div class="navzone" id="prevzone" title="Previous"></div>
+<div class="navzone" id="nextzone" title="Next"></div>
+
+<!-- 01 · Title -->
+<section class="slide">
+  <svg class="icon-lg" viewBox="0 0 24 24">
+    <path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 4-2.5 5.4-.8.9-1.5 2-1.5 3.1v.5h-6v-.5c0-1.1-.7-2.2-1.5-3.1C6.2 13 5 11.4 5 9a7 7 0 0 1 7-7z"/>
+    <line x1="9" y1="21" x2="15" y2="21"/>
+    <line x1="9.5" y1="9" x2="11" y2="11"/><line x1="11" y1="9" x2="9.5" y2="11"/>
+    <line x1="13" y1="9" x2="14.5" y2="11"/><line x1="14.5" y1="9" x2="13" y2="11"/>
+  </svg>
+  <div class="kicker">15-minute talk</div>
+  <h1>The Dark Sides<br>of <span class="hot">AI</span></h1>
+  <p class="sub">Six ways AI quietly goes wrong &mdash; and how to keep yourself in charge.</p>
+  <p class="byline">Charis Dang and our beloved Claude &middot; Hanoi, July 2026</p>
+</section>
+
+<!-- 02 · Warm-up divider -->
+<section class="slide">
+  <div class="kicker">Before we start</div>
+  <div class="divider-word">WARM<span class="fill">-UP_</span></div>
+  <p class="sub">Four quick questions. No wrong answers &mdash; hands up, shout out.</p>
+</section>
+
+<!-- 03 · Q1 frequency -->
+<section class="slide">
+  <div class="ghost">Q1</div>
+  <div class="qtag"><b>QUESTION 01</b> / 04</div>
+  <h2>How often do you use <span class="hot">AI</span>?</h2>
+  <div class="opts">
+    <div class="opt"><span class="key">A</span><span>Every day<small>it's basically a colleague</small></span></div>
+    <div class="opt"><span class="key">B</span><span>A few times a week</span></div>
+    <div class="opt"><span class="key">C</span><span>Once in a while</span></div>
+    <div class="opt"><span class="key">D</span><span>&ldquo;What's ChatGPT?&rdquo;</span></div>
+  </div>
+  <p class="prompt-line">show of hands<span class="cursor"></span></p>
+</section>
+
+<!-- 04 · Q2 models -->
+<section class="slide">
+  <div class="ghost">Q2</div>
+  <div class="qtag"><b>QUESTION 02</b> / 04</div>
+  <h2>Name some AI models &mdash;<br>which one is your <span class="hot">favorite</span>?</h2>
+  <div class="cloud" id="model-cloud">
+    <span class="word" style="--i:0;  --s:3.4rem; --c:var(--accent);   --r:-2deg">GPT-3.5</span>
+    <span class="word" style="--i:1;  --s:2.9rem; --c:var(--violet);   --r:2deg">Claude Sonnet</span>
+    <span class="word" style="--i:2;  --s:2.2rem; --c:var(--ink);      --r:0deg">Gemini</span>
+    <span class="word" style="--i:3;  --s:3.1rem; --c:var(--accent-2); --r:-3deg">Claude Fable</span>
+    <span class="word" style="--i:4;  --s:1.8rem; --c:var(--good);     --r:2deg">Haiku</span>
+    <span class="word" style="--i:5;  --s:2.7rem; --c:var(--ink);      --r:1deg">DeepSeek</span>
+    <span class="word" style="--i:6;  --s:2.5rem; --c:var(--violet);   --r:-1deg">Claude Opus</span>
+    <span class="word" style="--i:7;  --s:2rem;   --c:var(--accent);   --r:-2deg">Qwen</span>
+    <span class="word" style="--i:8;  --s:1.7rem; --c:var(--muted);    --r:2deg">Gemma</span>
+    <span class="word" style="--i:9;  --s:2.1rem; --c:var(--ink);      --r:1deg">Llama</span>
+    <span class="word" style="--i:10; --s:1.9rem; --c:var(--accent-2); --r:-1deg">Grok</span>
+    <span class="word" style="--i:11; --s:1.6rem; --c:var(--muted);    --r:2deg">Mistral</span>
+    <span class="word" style="--i:12; --s:2.3rem; --c:var(--good);     --r:-2deg">GPT-4o</span>
+    <span class="word" style="--i:13; --s:1.5rem; --c:var(--muted);    --r:0deg">&hellip;yours?</span>
+  </div>
+  <button class="reveal-btn" id="reveal-models" type="button">Reveal the models_</button>
+  <p class="prompt-line">shout them out first &mdash; then reveal<span class="cursor"></span></p>
+</section>
+
+<!-- 05 · Q3 spend -->
+<section class="slide">
+  <div class="ghost">Q3</div>
+  <div class="qtag"><b>QUESTION 03</b> / 04</div>
+  <h2>How much would you <span class="hot">spend</span> on AI per month?</h2>
+  <div class="opts">
+    <div class="opt"><span class="key">A</span><span>$0<small>free tier forever</small></span></div>
+    <div class="opt"><span class="key">B</span><span>Up to $20<small>one subscription</small></span></div>
+    <div class="opt"><span class="key">C</span><span>$20 &ndash; $100<small>power user</small></span></div>
+    <div class="opt"><span class="key">D</span><span>Whatever my company pays<small>the smartest answer</small></span></div>
+  </div>
+  <p class="prompt-line">show of hands<span class="cursor"></span></p>
+</section>
+
+<!-- 06 · Q4 level -->
+<section class="slide">
+  <div class="ghost">Q4</div>
+  <div class="qtag"><b>QUESTION 04</b> / 04</div>
+  <h2>What's your <span class="hot">AI level</span>?</h2>
+  <div class="levels">
+    <div class="level">
+      <div class="name">Beginner</div>
+      <div class="desc">Chatbot &mdash; ask, copy, done.</div>
+      <div class="meter"><span class="on"></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="level">
+      <div class="name">Intermediate</div>
+      <div class="desc">Claude Code, GPT Pro, skills.</div>
+      <div class="meter"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+    </div>
+    <div class="level">
+      <div class="name">Pro</div>
+      <div class="desc">MCP, multi-agent workflows.</div>
+      <div class="meter"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+    </div>
+    <div class="level">
+      <div class="name">AI Expert</div>
+      <div class="desc">Local LLMs, build your own RAG&hellip;</div>
+      <div class="meter"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
+    </div>
+  </div>
+  <p class="prompt-line">whatever your level &mdash; today's stories apply to everyone<span class="cursor"></span></p>
+</section>
+
+<!-- 07 · Hook -->
+<section class="slide">
+  <h2>A brilliant new <span class="hot">colleague</span>&hellip;</h2>
+  <ul class="points">
+    <li><b>Fast.</b> Drafts in seconds what used to take hours.</li>
+    <li><b>Confident.</b> Always has an answer, never hesitates.</li>
+    <li><b>Tireless.</b> Available 24/7, never complains.</li>
+    <li><b>&hellip;and occasionally, confidently wrong.</b> And it sounds <i>exactly the same</i> either way.</li>
+  </ul>
+  <p class="takeaway">The gap between how much we use AI and how much we check it &mdash; that's where every story today lives.</p>
+</section>
+
+<!-- 08 · Agenda -->
+<section class="slide">
+  <div class="kicker">Agenda</div>
+  <h2>Six <span class="hot">dark sides</span></h2>
+  <div class="grid">
+    <div class="card"><span class="num">01</span>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M12 3c4 0 7 2.7 7 6 0 2-1 3.5-2.2 4.7-.7.7-1.3 1.7-1.3 2.8v.5h-7v-.5c0-1.1-.6-2.1-1.3-2.8C6 12.5 5 11 5 9c0-3.3 3-6 7-6z"/><line x1="9" y1="20" x2="15" y2="20"/></svg>
+      Hallucination</div>
+    <div class="card"><span class="num">02</span>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2.5 6h5L5 7z"/><path d="M19 7l-2.5 6h5L19 7z"/></svg>
+      Bias &amp; unfair outcomes</div>
+    <div class="card"><span class="num">03</span>
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
+      Knowledge cut-off</div>
+    <div class="card"><span class="num">04</span>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><line x1="8" y1="9" x2="13" y2="9"/><line x1="8" y1="12" x2="11" y2="12"/></svg>
+      Context loss</div>
+    <div class="card"><span class="num">05</span>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M9 11.5a6.5 6.5 0 1 1 6 0"/><path d="M8 21c0-3 1.8-5 4-5s4 2 4 5"/><circle cx="12" cy="9" r="2"/></svg>
+      Manipulation</div>
+    <div class="card"><span class="num">06</span>
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/><line x1="16" y1="4" x2="21" y2="9"/><line x1="21" y1="4" x2="16" y2="9"/></svg>
+      Loss of accountability</div>
+  </div>
+</section>
+
+<!-- 09 · Hallucination -->
+<section class="slide">
+  <div class="ghost">01</div>
+  <div class="kicker">Dark side 1</div>
+  <h2>Hallucination &mdash; plausible <span class="hot">&ne;</span> true</h2>
+  <div class="story">
+    A lawyer filed a brief with <b>six case citations from ChatGPT</b> &mdash; names, docket numbers, quotes.
+    All six cases <b>did not exist</b>. He even asked ChatGPT &ldquo;are these real?&rdquo; &mdash; it said yes.
+    <span class="src">Mata v. Avianca, New York, 2023 &mdash; lawyers sanctioned and fined</span>
+  </div>
+  <div class="story">
+    Air Canada's chatbot <b>invented a refund policy</b>. A tribunal made the airline honor it.
+    <span class="src">Moffatt v. Air Canada, 2024</span>
+  </div>
+  <p class="takeaway">AI predicts the most plausible next word &mdash; it doesn't know facts. It never says &ldquo;I don't know&rdquo; unless you make it.</p>
+</section>
+
+<!-- 10 · Hallucination guardrails -->
+<section class="slide">
+  <div class="ghost">01</div>
+  <div class="kicker">Dark side 1 &middot; Guardrails</div>
+  <h2>Zero-trust the <span class="hot">output</span></h2>
+  <div class="vcards">
+    <div class="vcard">
+      <svg class="vicon" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5"/><line x1="15" y1="15" x2="21" y2="21"/><polyline points="7.2 10 9.2 12 13 7.8"/></svg>
+      <div class="vtitle">Ask for sources</div>
+      <div class="vdesc">Then check they actually exist &mdash; and say what the AI claims.</div>
+    </div>
+    <div class="vcard">
+      <svg class="vicon" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><line x1="12" y1="9" x2="12" y2="16"/><polyline points="9.5 13.5 12 16 14.5 13.5"/></svg>
+      <div class="vtitle">Ground it</div>
+      <div class="vdesc">&ldquo;Answer <b>only</b> from this document.&rdquo;</div>
+    </div>
+    <div class="vcard">
+      <svg class="vicon" viewBox="0 0 24 24"><path d="M4 17a8 8 0 0 1 16 0"/><line x1="12" y1="17" x2="17" y2="11"/><line x1="5.5" y1="12" x2="6.8" y2="13"/><line x1="12" y1="9" x2="12" y2="10.6"/><line x1="18.5" y1="12" x2="17.2" y2="13"/></svg>
+      <div class="vtitle">Match the stakes</div>
+      <div class="vdesc">Brainstorm &rarr; glance. Legal, medical, money &rarr; expert review.</div>
+    </div>
+  </div>
+  <p class="takeaway">Confidence is not accuracy.</p>
+</section>
+
+<!-- 11 · Bias -->
+<section class="slide">
+  <div class="ghost">02</div>
+  <div class="kicker">Dark side 2</div>
+  <h2>Bias &mdash; prejudice at <span class="hot">machine scale</span></h2>
+  <div class="duo">
+    <div>
+      <p class="lead">AI learned from <b>our internet</b> &mdash; stereotypes included.</p>
+      <p class="lead">Amazon's hiring AI penalized the word <b>&ldquo;women's&rdquo;</b> on resumes. They couldn't fix it &mdash; they scrapped it.<br><span class="srcline">Reuters, 2018</span></p>
+      <p class="takeaway">AI mass-produces our bias.</p>
+    </div>
+    <div class="art">
+      <img src="images/Bias_1.jpg" alt="AI-generated image showing a male doctor and a female nurse, illustrating gender bias in AI outputs">
+    </div>
+  </div>
+</section>
+
+<!-- 12 · Bias guardrails -->
+<section class="slide">
+  <div class="ghost">02</div>
+  <div class="kicker">Dark side 2 &middot; Guardrails</div>
+  <h2>Test it like you <span class="hot">don't trust it</span></h2>
+  <div class="duo">
+    <div>
+      <p class="lead"><b>A/B your prompts:</b> swap one detail. The answer shouldn't change.</p>
+      <div class="mini-chips">
+        <span class="mini-chip"><b>Humans</b> decide about humans</span>
+        <span class="mini-chip">Unfair output? <b>Report it</b></span>
+      </div>
+      <p class="takeaway">Same question, different name &rarr; same answer.</p>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="var(--ink)" stroke-width="2">
+          <rect x="12" y="30" width="132" height="60"/>
+          <rect x="12" y="150" width="132" height="60"/>
+          <rect x="196" y="88" width="64" height="64"/>
+        </g>
+        <text x="24" y="55" font-family="Consolas, monospace" font-size="14" fill="var(--ink)" font-weight="bold">CV &middot; David, 30</text>
+        <text x="24" y="77" font-family="Consolas, monospace" font-size="12" fill="var(--muted)">same skills</text>
+        <text x="24" y="175" font-family="Consolas, monospace" font-size="14" fill="var(--ink)" font-weight="bold">CV &middot; Maria, 55</text>
+        <text x="24" y="197" font-family="Consolas, monospace" font-size="12" fill="var(--muted)">same skills</text>
+        <text x="228" y="127" text-anchor="middle" font-family="Consolas, monospace" font-size="20" font-weight="bold" fill="var(--accent)">AI</text>
+        <g fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round">
+          <path d="M144 60 h30 l22 40"/>
+          <path d="M144 180 h30 l22 -40"/>
+          <line x1="260" y1="120" x2="296" y2="120"/>
+        </g>
+        <text x="306" y="112" font-family="Consolas, monospace" font-size="24" font-weight="bold" fill="var(--good)">=</text>
+        <text x="306" y="140" font-family="Consolas, monospace" font-size="24" font-weight="bold" fill="var(--good)">?</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · Knowledge cut-off -->
+<section class="slide">
+  <div class="ghost">03</div>
+  <div class="kicker">Dark side 3</div>
+  <h2>Knowledge cut-off &mdash; <span class="hot">frozen in time</span></h2>
+  <p class="lead" style="max-width:74rem">It <b>fell asleep</b> months (sometimes years) ago &mdash; and never mentions the nap. The gap between &ldquo;trained&rdquo; and &ldquo;today&rdquo; has never closed:</p>
+  <div class="roadmap">
+    <div class="rm-track">
+      <div class="rm-stop">
+        <span class="rm-dot"></span>
+        <span class="rm-year">2018&ndash;2020</span>
+        <span class="rm-name">GPT-1 &rarr; GPT-3</span>
+        <span class="rm-cut">pre-chatbot era</span>
+      </div>
+      <div class="rm-stop">
+        <span class="rm-dot"></span>
+        <span class="rm-year">Nov 2022</span>
+        <span class="rm-name">ChatGPT (3.5)</span>
+        <span class="rm-cut">cutoff: Sep 2021</span>
+      </div>
+      <div class="rm-stop">
+        <span class="rm-dot"></span>
+        <span class="rm-year">Mar 2023</span>
+        <span class="rm-name">GPT-4</span>
+        <span class="rm-cut">cutoff: Sep 2021</span>
+      </div>
+      <div class="rm-stop">
+        <span class="rm-dot"></span>
+        <span class="rm-year">May 2024</span>
+        <span class="rm-name">GPT-4o</span>
+        <span class="rm-cut">cutoff: Oct 2023</span>
+      </div>
+      <div class="rm-stop">
+        <span class="rm-dot"></span>
+        <span class="rm-year">2025</span>
+        <span class="rm-name">GPT-5.5 / 5.4</span>
+        <span class="rm-cut">cutoff: Aug&ndash;Dec 2025</span>
+      </div>
+      <div class="rm-stop now">
+        <span class="rm-dot"></span>
+        <span class="rm-year">NOW</span>
+        <span class="rm-name">You, reading this</span>
+        <span class="rm-cut">the gap is still open</span>
+      </div>
+    </div>
+  </div>
+  <p class="takeaway">Ask it: &ldquo;what's your cutoff date?&rdquo; &mdash; then check live sources for anything time-sensitive.</p>
+</section>
+
+<!-- 14 · Context loss -->
+<section class="slide">
+  <div class="ghost">04</div>
+  <div class="kicker">Dark side 4</div>
+  <h2>Context loss &mdash; <span class="hot">goldfish memory</span></h2>
+  <div class="duo">
+    <div>
+      <p class="lead">Message 1: <b>&ldquo;under 200 words, no competitor names.&rdquo;</b><br>Message 40: it forgot both.</p>
+      <div class="mini-chips">
+        <span class="mini-chip"><b>Context window</b> = its short-term memory</span>
+        <span class="mini-chip">~128K&ndash;1M <b>tokens</b> &mdash; then it overflows</span>
+        <span class="mini-chip"><b>No long-term memory</b> by default</span>
+      </div>
+      <p class="takeaway">Long chat &ne; long memory. Restart fresh, re-state the rules, recap &mdash; don't argue.</p>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg">
+        <rect x="70" y="34" width="160" height="224" rx="10" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+        <g fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4" opacity=".55">
+          <rect x="84" y="52" width="96" height="26" rx="6"/>
+          <rect x="120" y="90" width="96" height="22" rx="6"/>
+        </g>
+        <text x="92" y="69" font-family="Consolas, monospace" font-size="11" fill="var(--muted)" opacity=".7">&le;200 words!</text>
+        <rect x="84" y="126" width="96" height="22" rx="6" fill="none" stroke="var(--muted)" stroke-width="1.5"/>
+        <rect x="84" y="176" width="130" height="54" rx="6" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+        <text x="94" y="199" font-family="Consolas, monospace" font-size="12" font-weight="bold" fill="var(--accent)">800 words +</text>
+        <text x="94" y="217" font-family="Consolas, monospace" font-size="12" font-weight="bold" fill="var(--accent)">3 competitors</text>
+        <path d="M180 48 q34 -14 34 -36" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+        <path d="M208 8 l6 4 l-8 4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <text x="240" y="20" font-family="Consolas, monospace" font-size="12" fill="var(--muted)">forgotten</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 15 · Manipulation -->
+<section class="slide">
+  <div class="ghost">05</div>
+  <div class="kicker">Dark side 5</div>
+  <h2>Manipulation &mdash; nudged <span class="hot">against yourself</span></h2>
+  <div class="duo">
+    <div>
+      <p class="lead">Is this optimized <b>for your benefit</b> &mdash; or for <b>someone else's metric</b>?</p>
+      <div class="mini-chips">
+        <span class="mini-chip"><b>Outrage</b> keeps you scrolling</span>
+        <span class="mini-chip">Offers timed to <b>weak moments</b></span>
+        <span class="mini-chip"><b>Friction</b> where you cancel</span>
+      </div>
+      <p class="takeaway">Consent, opt-out, audit &mdash; never target the vulnerable.</p>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 300 255" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round">
+          <line x1="75" y1="18" x2="225" y2="42"/>
+          <line x1="75" y1="42" x2="225" y2="18"/>
+        </g>
+        <g stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 4">
+          <line x1="95" y1="33" x2="112" y2="148"/>
+          <line x1="150" y1="30" x2="150" y2="112"/>
+          <line x1="205" y1="33" x2="188" y2="148"/>
+        </g>
+        <g fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round">
+          <circle cx="150" cy="128" r="16"/>
+          <line x1="150" y1="144" x2="150" y2="185"/>
+          <line x1="150" y1="155" x2="112" y2="148"/>
+          <line x1="150" y1="155" x2="188" y2="148"/>
+          <line x1="150" y1="185" x2="130" y2="218"/>
+          <line x1="150" y1="185" x2="170" y2="218"/>
+        </g>
+        <text x="150" y="246" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="var(--muted)">who's pulling?</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 16 · Accountability -->
+<section class="slide">
+  <div class="ghost">06</div>
+  <div class="kicker">Dark side 6</div>
+  <h2>&ldquo;The AI said so&rdquo; is <span class="hot">not a defense</span></h2>
+  <div class="duo">
+    <div>
+      <p class="lead">Air Canada: <b>&ldquo;the chatbot is its own legal entity.&rdquo;</b><br>The tribunal: no.<br><span class="srcline">Moffatt v. Air Canada, 2024</span></p>
+      <div class="mini-chips">
+        <span class="mini-chip">A <b>named human</b> owns it</span>
+        <span class="mini-chip">Can't explain it? <b>Not reviewed</b></span>
+        <span class="mini-chip"><b>Spot-check</b>, don't rubber-stamp</span>
+      </div>
+      <p class="takeaway">Delegate the work &mdash; never the responsibility.</p>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4" opacity=".7">
+          <rect x="34" y="18" width="158" height="46" rx="8"/>
+          <path d="M70 64 l-8 16 l22 -16"/>
+        </g>
+        <text x="113" y="46" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="var(--muted)">"blame the bot?"</text>
+        <g transform="rotate(-8 165 155)">
+          <rect x="55" y="112" width="220" height="86" fill="none" stroke="var(--accent)" stroke-width="4"/>
+          <rect x="66" y="123" width="198" height="64" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="165" y="150" text-anchor="middle" font-family="Consolas, monospace" font-size="19" font-weight="bold" fill="var(--accent)">YOU DEPLOY IT,</text>
+          <text x="165" y="176" text-anchor="middle" font-family="Consolas, monospace" font-size="19" font-weight="bold" fill="var(--accent)">YOU OWN IT.</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 17 · The human toll -->
+<section class="slide">
+  <div class="ghost">+1</div>
+  <div class="kicker">One more thing &middot; the human toll</div>
+  <h2>It affects <span class="hot">your brain</span> too</h2>
+  <div class="vcards two">
+    <div class="vcard warn">
+      <svg class="vicon" viewBox="0 0 24 24"><path d="M9 4a4 4 0 0 0-4 4c-1.5.5-2.5 1.8-2.5 3.3 0 1.2.6 2.3 1.5 2.9V16a3.5 3.5 0 0 0 3.5 3.5H9"/><path d="M15 4a4 4 0 0 1 4 4c1.5.5 2.5 1.8 2.5 3.3 0 1.2-.6 2.3-1.5 2.9V16a3.5 3.5 0 0 1-3.5 3.5H15"/><path d="M12 3v18"/><path d="M8 22l1.5-2.5L7 18l2-3"/></svg>
+      <div class="vtitle">Brain Fry</div>
+      <div class="vdesc">AI does the work &mdash; you do the <b>non-stop verifying</b>. Sustained vigilance is exhausting. MIT (2025) calls it <b>&ldquo;cognitive debt.&rdquo;</b></div>
+    </div>
+    <div class="vcard warn">
+      <svg class="vicon" viewBox="0 0 24 24"><path d="M3 9l9-4.5L21 9l-9 4.5z"/><path d="M7 11.5V16c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"/><path d="M21 9v5"/><path d="M12 13.5v.01"/></svg>
+      <div class="vtitle">Illusion of Expertise</div>
+      <div class="vdesc">Fluent answers <b>feel</b> like understanding. You can present it &mdash; but can you survive <b>one follow-up question</b>?</div>
+    </div>
+  </div>
+  <p class="takeaway">The test: explain it out loud, without the AI. AI can do the work &mdash; it can't do the knowing.</p>
+</section>
+
+<!-- 18 · Closing -->
+<section class="slide">
+  <div class="kicker">The common thread</div>
+  <p class="big-quote">Every failure = a human who <em>trusted without verifying</em>.</p>
+  <div class="mini-chips" style="margin-top:2.6rem">
+    <span class="mini-chip">Every output is a <b>draft</b></span>
+    <span class="mini-chip">Verify by <b>stakes</b></span>
+    <span class="mini-chip"><b>Your name</b> on your work</span>
+  </div>
+  <p class="mega"><span class="hot">AI drafts.</span> Humans decide.</p>
+</section>
+
+<!-- 19 · Thank you -->
+<section class="slide" style="align-items:center;text-align:center">
+  <h1 style="font-size:4.2rem">Thank <span class="hot">you</span></h1>
+  <p class="sub" style="margin-top:1.2rem">Questions?</p>
+  <p class="sub" style="font-size:1.05rem;opacity:.7;margin-top:3rem;font-family:var(--mono)">THE DARK SIDES OF AI &middot; AI DRAFTS, HUMANS DECIDE</p>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
